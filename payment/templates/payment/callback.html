@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load staticfiles payment_tags %}
+
+
+{% block content %}
+
+    <div class="main-content">
+        <div class="container-fluid">
+
+            {% if not status %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <i class="fa fa-times-circle"></i> {{ message }}
+                </div>
+            {% endif %}
+
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+
+                    <div class="panel">
+                        <div class="panel-body">
+
+
+                            {% if status %}
+
+                                <p style="text-align: center">
+                                تراکنش با موفقیت انجام شد.
+                                </p><br>
+
+                                <div class="text-center">
+                                    {{ payment_transaction|render_purchased_item_info }}
+                                    <label>
+                                        شماره پیگیری:
+                                    </label>
+                                    {{ payment_transaction.SaleReferenceId }}
+                                </div>
+
+                            {% else %}
+
+                                <p style="text-align: center">
+                                خطا در برقراری ارتباط. لطفا دوباره تلاش کنید.
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+
+
+                </div><!-- end .col -->
+
+            </div><!-- end .row -->
+
+
+        </div>
+    </div>
+
+{% endblock %}

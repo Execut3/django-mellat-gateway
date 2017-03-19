@@ -1,0 +1,68 @@
+{% extends 'panel/base.html' %}
+{% load staticfiles payment_tags %}
+
+
+{% block content %}
+
+    <div class="main-content">
+        <div class="container-fluid">
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+لیست تبادلات اینترنتی انجام شده توسط کاربران
+                    </h3>
+                </div>
+                <div class="panel-body">
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center">#</th>
+                                <th style="text-align: center">
+مشخصات کاربر
+                                </th>
+                                <th style="text-align: center">
+آیتم مورد درخواست
+                                </th>
+                                <th style="text-align: center">
+وضعیت تراکنش
+                                </th>
+                                <th style="text-align: center">
+تاریخ پرداخت
+                                </th>
+                                <th style="text-align: center">
+مشخصات تراکنش
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for payment in payments %}
+                                <tr style="background-color: {% if payment.success %}#c5f5cc{% endif %}">
+                                    <td style="text-align: center">{{ forloop.counter }}</td>
+                                    <td style="text-align: center">
+                                        {% if payment.user.first_name %}<label>{{ payment.user.first_name }} {{ payment.user.last_name }}</label>{% endif %}
+                                        <p>({{ payment.user.username }})</p>
+                                    </td>
+                                    <td style="text-align: center">{{ payment|render_purchased_item_info }}</td>
+                                    <td style="text-align: center">{% if not payment.success %}{{ payment.error_description }}{% else %}
+                                        پرداخت با موفقیت انجام شد.
+                                    {% endif %}</td>
+                                    <td style="text-align: center">{{ payment.transaction_date|timesince }}</td>
+                                    <td style="text-align: left" dir="ltr">
+                                        {% if payment.RefId %}<label>RefId: </label> {{ payment.RefId }}{% endif %}
+                                        {% if payment.SaleOrderId %}<p><b>SaleOrderId:</b>  {{ payment.SaleOrderId }}</p>{% endif %}
+                                        {% if payment.order_id %}<p><b>Order ID:</b>  {{ payment.order_id }}</p>{% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
