@@ -1,8 +1,9 @@
-from django.conf.urls import url
+from django.urls import path
 from views import *
 
+app_name = 'payment'
 
 urlpatterns = [
-    url(r'^callback$', callback, name='callback'),
-    url(r'^view$', view_payments, name='view_payments'),
+    path('callback/', callback, name='callback'),
+    path('view/', view_payments, name='view_payments'),
 ]
